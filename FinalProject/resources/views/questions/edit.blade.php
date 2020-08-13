@@ -23,7 +23,7 @@
                 <div class="form-group">
                 <label for="content">Content</label>
                 <!-- <input type="text" name="content" class="form-control" value="{{ old('content', $question->content) }}" id="content" placeholder="Content" required> -->
-                <textarea name="content" class="form-control my-editor" required>{!! old('content', $question->content) !!}</textarea>
+                <textarea name="content" class="form-control my-editor">{!! old('content', $question->content) !!}</textarea>
                 @error('content')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror

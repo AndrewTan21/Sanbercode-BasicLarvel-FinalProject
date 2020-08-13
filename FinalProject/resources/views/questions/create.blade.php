@@ -7,7 +7,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form role="form" action="/question/" method="POST">
+        <form role="form" action="/question" method="POST">
         @csrf
             <div class="card-body">
                 <!-- title -->
@@ -22,7 +22,7 @@
                 <div class="form-group">
                 <label for="content">Content</label>
                 <!-- <input type="text" name="content" class="form-control" value="{{ old('content', '') }}" id="content" placeholder="Content" required> -->
-                <textarea name="content" class="form-control my-editor" required>{!! old('content', '') !!}</textarea>
+                <textarea name="content" class="form-control my-editor">{!! old('content', '') !!}</textarea>
                 @error('content')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
