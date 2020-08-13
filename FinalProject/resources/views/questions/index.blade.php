@@ -28,7 +28,7 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $question->title }}</td>
-                        <td>{{ $question->content }}</td>
+                        <td>{!! $question->content !!}</td>
                         <td>{{ $question->tag }}</td>
                         <td style="display: flex;">
                             <a href="/question/{{$question->id}}" class="btn btn-sm btn-info mr-1">Show</a>
