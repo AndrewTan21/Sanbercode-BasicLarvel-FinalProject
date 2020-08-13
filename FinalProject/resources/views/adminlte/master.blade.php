@@ -23,6 +23,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       .pagination {
           float: right;
       }
+      @font-face {
+        font-family: "D-DIN";
+        src: url("D-DIN.otf") format("opentype");
+
+        font-family: "D-DINExp-Bold";
+        src: url("D-DINExp-Bold.otf") format("opentype");
+      }
   </style>
   <body class="hold-transition sidebar-mini">
     <div class="wrapper">
