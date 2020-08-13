@@ -15,7 +15,7 @@
     <!-- Default box -->
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">{{$question->content}}</h3>        
+        <h3 class="card-title">{!!$question->content!!}</h3>        
       </div>
       <div class="card-header">
         <h3 class="card-title">{{$question->tag}}</h3>        
