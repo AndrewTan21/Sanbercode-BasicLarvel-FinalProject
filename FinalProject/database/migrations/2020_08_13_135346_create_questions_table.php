@@ -17,9 +17,9 @@ class CreateQuestionsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->longText('content');
-            $table->string('tag');
-            $table->integer('point_vote');
-            $table->boolean('correct_answer');
+            $table->string('tag')->nullable();
+            $table->integer('point_vote')->nullable();
+            $table->boolean('correct_answer')->nullable();
             $table->timestamps();
         });
     }

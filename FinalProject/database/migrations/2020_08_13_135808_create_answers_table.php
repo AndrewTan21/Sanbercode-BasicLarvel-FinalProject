@@ -16,7 +16,7 @@ class CreateAnswersTable extends Migration
         Schema::create('answers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('content');
-            $table->integer('point_vote');
+            $table->integer('point_vote')->nullable();
             $table->timestamps();
         });
     }
