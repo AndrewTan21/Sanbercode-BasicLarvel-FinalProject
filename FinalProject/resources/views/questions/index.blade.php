@@ -55,12 +55,9 @@
 @push('script')
 <script src="{{asset('assets/plugins/datatables/jquery.dataTables.js')}}"></script>
 <script src="{{asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
-<script>
-//   $(function () {
-//     $("#example1").DataTable();
-//   });
+{{-- <script>
     $(document).ready(function() {
         $('#example1').DataTable();
     });
-</script>
+</script> --}}
 @endpush('script')
