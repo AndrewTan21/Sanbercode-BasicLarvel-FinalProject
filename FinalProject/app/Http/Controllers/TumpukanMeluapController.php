@@ -8,6 +8,17 @@ use App\Question;
 class TumpukanMeluapController extends Controller
 {
     /**
+     * First a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

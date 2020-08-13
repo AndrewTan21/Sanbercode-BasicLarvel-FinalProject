@@ -81,7 +81,9 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    <img src="{{asset('assets/img/id stack overflow.png')}}" style="width: 100%" />
+                    <a href="/question">
+                        <img src="{{asset('assets/img/id stack overflow.png')}}" style="width: 100%" />
+                    </a>
                 </div>
             </div>
         </div>
