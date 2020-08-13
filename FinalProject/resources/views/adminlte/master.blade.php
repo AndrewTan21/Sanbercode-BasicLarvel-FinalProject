@@ -28,16 +28,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="wrapper">
 
       <!-- Navbar -->
-      @yield('layout.navbar')
+      @include('adminlte.layout.navbar')
       <!-- /.navbar -->
 
       <!-- Main Sidebar Container -->
-      @yield('layout.sidebar')
+      @include('adminlte.layout.sidebar')
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        @yield('layout.header')
+        @include('adminlte.layout.header')
         <!-- /.content-header -->
 
         <!-- Main content -->
