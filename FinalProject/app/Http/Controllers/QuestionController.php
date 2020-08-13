@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Question;
 
-class TumpukanMeluapController extends Controller
+class QuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
