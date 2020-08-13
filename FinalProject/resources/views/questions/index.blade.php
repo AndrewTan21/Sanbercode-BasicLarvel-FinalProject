@@ -12,7 +12,7 @@
                     {{session('success')}}
                 </div>
             @endif
-            <a href="/question/create" class="btn btn-primary mb-3">Create New Question</a>
+            <a href="{{ route('pertanyaan.create') }}" class="btn btn-primary mb-3">Create New Question</a>
             <table class="table table-bordered">
                 <thead>                  
                 <tr>
@@ -31,12 +31,12 @@
                         <td>{!! $question->content !!}</td>
                         <td>{{ $question->tag }}</td>
                         <td style="display: flex;">
-                            <a href="/question/{{$question->id}}" class="btn btn-sm btn-info mr-1">Show</a>
-                            <a href="/question/{{$question->id}}/edit" class="btn btn-sm btn-info mr-1">Edit</a>
-                            <form action="/question/{{$question->id}}" method="POST">
+                            <a href="{{ route('question.show', ['question' => $question->id ]) }}" class="btn btn-sm btn-info mr-1">Show</a>
+                            <a href="{{ route('question.edit', ['question' => $question->id ])}}" class="btn btn-sm btn-info mr-1">Edit</a>
+                            <form action="{{ route('question.destroy', ['question' => $question->id ])}}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <input type="submit" value="delete" class="btn btn-sm btn-danger">
+                                <input type="submit" value="Delete" class="btn btn-sm btn-danger">
                             </form>
                         </td>
                     </tr>
