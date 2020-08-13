@@ -16,10 +16,10 @@ class TumpukanMeluapController extends Controller
     {
         //
         // eloquent
+        $page = 'Question';
         $questions = Question::all();
 
-        return view('questions.index', compact('questions'));
-
+        return view('questions.index', ['page' => $page], compact('questions'));
     }
 
     /**
@@ -30,7 +30,8 @@ class TumpukanMeluapController extends Controller
     public function create()
     {
         //
-        return view('questions.create');
+        $page = 'Create Question';
+        return view('questions.create', ['page' => $page]);
     }
 
     /**
@@ -67,9 +68,10 @@ class TumpukanMeluapController extends Controller
     {
         //
         // dengan eloquent
+        $page = 'Question Detail';
         $question = Question::find($id);
 
-        return view('questions.show', ["question" => $question]);
+        return view('questions.show', ['page' => $page], ["question" => $question]);
     }
 
     /**
@@ -83,8 +85,9 @@ class TumpukanMeluapController extends Controller
         //
         // $question = DB::table('questions')->where('id', $id)->first();
         $question = Question::where('id', $id)->first();
+        $page = 'Edit Question';
 
-        return view('questions.edit', compact('question'));
+        return view('questions.edit', ['page' => $page], compact('question'));
     }
 
     /**

@@ -11,7 +11,7 @@
         <a href="/data-tables" class="nav-link">Data-tables</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/pertanyaan" class="nav-link">Questions</a>
+        <a href="/question" class="nav-link">Questions</a>
       </li>
     </ul>
 

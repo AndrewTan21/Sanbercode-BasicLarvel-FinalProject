@@ -12,15 +12,15 @@
                     {{session('success')}}
                 </div>
             @endif
-            <a href="{{ route('question.create') }}" class="btn btn-primary mb-3">Create New Question</a>
-            <table class="table table-bordered">
+            <a href="{{ route('question.create') }}" class="btn btn-primary mb-3" style="margin-bottom: 1.25rem;">Create New Question</a>
+            <table id="example1" class="table table-bordered">
                 <thead>                  
                 <tr>
-                    <th style="width: 10px">#</th>
+                    <th style="width: 30px">#</th>
                     <th>Title</th>
                     <th>Content</th>
                     <th>Tag</th>
-                    <th style="width: 40px">Action</th>
+                    <th style="width: 250px">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -30,13 +30,13 @@
                         <td>{{ $question->title }}</td>
                         <td>{!! $question->content !!}</td>
                         <td>{{ $question->tag }}</td>
-                        <td style="display: flex;">
-                            <a href="{{ route('question.show', ['question' => $question->id ]) }}" class="btn btn-sm btn-info mr-1">Show</a>
-                            <a href="{{ route('question.edit', ['question' => $question->id ]) }}" class="btn btn-sm btn-info mr-1">Edit</a>
-                            <form action="{{ route('question.destroy', ['question' => $question->id ]) }}" method="POST">
+                        <td style="display: flex; border: unset;">
+                            <a href="{{ route('question.show', ['question' => $question->id ]) }}" class="btn btn-sm btn-info mr-1" style="width: 33.33%; margin-right: 10px">Show</a>
+                            <a href="{{ route('question.edit', ['question' => $question->id ]) }}" class="btn btn-sm btn-info mr-1" style="width: 33.33%; margin-right: 10px">Edit</a>
+                            <form action="{{ route('question.destroy', ['question' => $question->id ]) }}" method="POST" style="width: 33.33%;">
                                 @csrf
                                 @method('DELETE')
-                                <input type="submit" value="Delete" class="btn btn-sm btn-danger">
+                                <input type="submit" value="Delete" class="btn btn-danger btn-sm" style="width: 100%; margin-right: 10px">
                             </form>
                         </td>
                     </tr>
@@ -49,16 +49,18 @@
                 </tbody>
             </table>
         </div>
-        <!-- /.card-body -->
-        <!-- <div class="card-footer clearfix">
-        <ul class="pagination pagination-sm m-0 float-right">
-            <li class="page-item"><a class="page-link" href="#">«</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">»</a></li>
-        </ul>
-        </div> -->
     </div>
 </div>
 @endsection
+@push('script')
+<script src="{{asset('assets/plugins/datatables/jquery.dataTables.js')}}"></script>
+<script src="{{asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+<script>
+//   $(function () {
+//     $("#example1").DataTable();
+//   });
+    $(document).ready(function() {
+        $('#example1').DataTable();
+    });
+</script>
+@endpush('script')
