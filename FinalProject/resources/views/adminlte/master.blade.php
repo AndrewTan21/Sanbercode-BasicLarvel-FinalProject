@@ -40,9 +40,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         display: flex;
         width: 100%;
       }
-      ul.navbar-nav li:nth-last-child(1) {
-        margin-left: auto !important;
-      }
       @font-face {
         font-family: "D-DIN";
         src: url("D-DIN.otf") format("opentype");
