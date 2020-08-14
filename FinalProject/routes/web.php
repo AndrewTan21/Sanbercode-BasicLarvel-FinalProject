@@ -28,7 +28,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('answer', 'QuestionController');
+Route::get('/{pageId}', function($pageId){
+    return view('page',['pageId' => $pageId]);
+ });
+ Route::get('answers/{pageId}', 'AnswerController@index');
+ Route::post('answers', 'AnswerController@store');
+ Route::post('answers/{answerId}/{type}', 'AnswerController@update');
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
