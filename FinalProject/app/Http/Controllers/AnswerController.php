@@ -35,9 +35,14 @@ class AnswerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "content" => 'required',
+            "content" => 'required|string',
             "point_vote" => 'filled'
         ]);
+        $answer = new Answer;
+        $answer->content = $request->content;
+        $answer->poin_vote = $request->poin_vote;
+        $answer->save();
+        
         $answer = Answer::create($request->all());
        if($answer)
            return [ "status" => "true","id" => $answer->id ];
