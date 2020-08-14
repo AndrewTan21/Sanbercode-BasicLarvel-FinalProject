@@ -3,7 +3,7 @@
 <div class="mt-3 ml-3 mr-3">
     <div class="card">
         <div class="card-header">
-        <h3 class="card-title">Bordered Table</h3>
+        <h3 class="card-title">Question-Table</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -16,7 +16,7 @@
             <table id="example1" class="table table-bordered">
                 <thead>                  
                 <tr>
-                    <th style="width: 30px">#</th>
+                    <th style="width: 30px">id</th>
                     <th>Title</th>
                     <th>Content</th>
                     <th>Tag</th>
@@ -49,6 +49,15 @@
                 </tbody>
             </table>
         </div>
+        <div class="card-footer clearfix">
+            <ul class="pagination pagination-sm m-0 float-right">
+              <li class="page-item"><a class="page-link" href="#">«</a></li>
+              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item"><a class="page-link" href="#">»</a></li>
+            </ul>
+          </div>
     </div>
 </div>
 @endsection
