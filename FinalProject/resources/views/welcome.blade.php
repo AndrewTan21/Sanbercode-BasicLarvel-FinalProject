@@ -64,6 +64,26 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            /* animated */
+            .modal-bg {
+                background: linear-gradient(-45deg, #000000, #ee7752, #e73c7e, #23a6d5, #23d5ab, 
+                yellow, pink, orange, salmon, red, lightblue, lightgreen, green);
+                background-size: 400% 400%;
+                animation: gradient 15s ease-in-out infinite;
+            }
+
+            @keyframes gradient {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
         </style>
     </head>
     <body>
@@ -84,7 +104,7 @@
 
             <!-- Button trigger modal -->
             <!-- Modal -->
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal fade modal-bg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
