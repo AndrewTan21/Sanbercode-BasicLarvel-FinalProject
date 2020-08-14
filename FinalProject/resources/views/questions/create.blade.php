@@ -1,7 +1,7 @@
 @extends('adminlte.master')
 @section('content')
 <div class="mt-3 ml-3 mr-3">
-    <div class="card card-primary">
+    <div class="card card-danger">
         <div class="card-header">
         <h3 class="card-title">Create New Question</h3>
         </div>
@@ -39,7 +39,7 @@
         <!-- /.card-body -->
 
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="submit" class="btn btn-info">Submit</button>
             </div>
         </form>
     </div>
