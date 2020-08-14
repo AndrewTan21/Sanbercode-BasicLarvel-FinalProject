@@ -54,7 +54,7 @@ class QuestionController extends Controller
         $question->tag = $request->tag;
         $question->save();
 
-        return redirect('/question/')->with('success', 'Pertanyaan berhasil di simpan');
+        return redirect('/question')->with('success', 'Pertanyaan berhasil di simpan');
     }
 
     /**

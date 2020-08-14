@@ -5,7 +5,7 @@
   .question-time {
     display: flex; 
     padding-bottom: 8px; 
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid rgb(228, 230, 232);
     margin-bottom: 1rem;
   }
 
@@ -28,8 +28,12 @@
 
   .question .postcell {
     vertical-align: top;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgb(228, 230, 232);
+    padding-bottom: 15px;
   }
-  .post-layout--right {
+  .post-layout--right,
+  .comment-wrap {
       /* padding-right: 16px; */
       grid-column: 2;
       width: auto;
@@ -49,6 +53,13 @@
     color: rgb(187, 192, 196);
   }
 
+  .btn-show-repost {
+    display: block;
+    background: transparent;
+    margin: auto;
+    border: unset;
+  }
+
   .post-tag {
     font-size: 12px;
     color: rgb(57, 115, 157);
@@ -66,8 +77,27 @@
     border-radius: 3px;
   }
 
-  .question-user {
-    max-width: 200px;
+  .question-post {
+    display: flex;
+    margin-top: 20px;
+  }
+
+  .post-menu a {
+    font-weight: 500;
+    color: rgb(132, 141, 149);
+    margin-right: 5px;
+  }
+
+  .post-menu a:hover {
+    color: #000000;
+    transition: all 0.5s ease-in-out;
+  }
+
+  .post-menu a:nth-last-child(1) {
+    margin-right: 0;
+  }
+
+  .question-user-info {
     margin-left: auto;
   }
 
@@ -132,6 +162,18 @@
   .like {
     background-image: url('{{asset('assets/img/like.png')}}')
   }
+
+  .fn-answer {
+    font-weight: 400;
+    font-size: 1.2em;
+    color: rgb(36, 39, 41);
+  }
+
+  .comment-wrap a {
+    color: #848d95;
+    opacity: .6;
+    padding: 0 3px 2px;
+  }
 </style>
 
 <div class="content">
@@ -157,7 +199,7 @@
         <!-- Content posting -->
         <div class="votecell post-layout--left">
           <div class="wrap-btn" data-post-id="63413020">
-            <button class="btn-arrow" data-controller="s-tooltip" data-s-tooltip-placement="right" aria-pressed="false" aria-label="Up vote" data-selected-classes="fc-theme-primary" aria-describedby="--stacks-s-tooltip-66m5oiza">
+            <button class="btn-arrow">
               <svg aria-hidden="true" class="" width="36" height="36" viewBox="0 0 36 36">
                 <path d="M2 26h32L18 10 2 26z"></path>
               </svg>
@@ -169,7 +211,7 @@
             
             <div class="text-center" itemprop="upvoteCount" data-value="0">0</div>
 
-            <button class="btn-arrow" data-controller="s-tooltip" data-s-tooltip-placement="right" aria-pressed="false" aria-label="Down vote" data-selected-classes="fc-theme-primary" aria-describedby="--stacks-s-tooltip-u19wil8r">
+            <button class="btn-arrow">
               <svg aria-hidden="true" class="" width="36" height="36" viewBox="0 0 36 36">
                 <path d="M2 10h32L18 26 2 10z"></path>
               </svg>
@@ -178,30 +220,53 @@
             {{-- <div id="--stacks-s-tooltip-u19wil8r" class="" aria-hidden="true" role="tooltip">This question does not show any research effort; it is unclear or not useful
               <div class=""></div>
             </div> --}}
+
+            <button class="btn-show-repost">
+              <svg aria-hidden="true" class="" width="19" height="18" viewBox="0 0 18 18">
+                <path d="M3 9a8 8 0 113.73 6.77L8.2 14.3A6 6 0 105 9l3.01-.01-4 4-4-4h3L3 9zm7-4h1.01L11 9.36l3.22 2.1-.6.93L10 10V5z"></path>
+              </svg>
+
+          </button>
           </div>
         </div>
 
         <div class="postcell post-layout--right">
           <div class="post-text" itemprop="text">
             <p>
-              I'd like to know, if there's some link to dat.gui code. I want to download it by the link, since I have some problems with the npm, so it's easier for me. Thanks for your help :)
+              {!!$question->content!!}
             </p>
           </div>
 
           <div class="post-taglist grid gs4 gsy fd-column">
             <div class="grid ps-relative d-block">
-              <a href="/questions/tagged/javascript" class="post-tag js-gps-track" title="" rel="tag">javascript</a>
-              <a href="/questions/tagged/html" class="post-tag js-gps-track" title="" rel="tag">html</a>
-              <a href="/questions/tagged/npm" class="post-tag js-gps-track" title="" rel="tag">npm</a>
-              <a href="/questions/tagged/dat.gui" class="post-tag js-gps-track" title="" rel="tag">dat.gui</a> 
+              <a href="/questions/tagged/javascript" class="post-tag" title="" rel="tag">javascript</a>
+              <a href="/questions/tagged/html" class="post-tag" title="" rel="tag">html</a>
+              <a href="/questions/tagged/npm" class="post-tag" title="" rel="tag">npm</a>
+              <a href="/questions/tagged/dat.gui" class="post-tag" title="" rel="tag">dat.gui</a> 
             </div>
           </div>
 
-          <div class="question-user">
-            <div class="mt16 grid gs8 gsy fw-wrap jc-end ai-start pt4">
+          <div class="question-post">
+            <div class="post-menu">
+              <a href="#" class="" title="">
+                share
+              </a>
+
+              <a href="#" class="" title="">
+                improve this question
+              </a>
+
+              <a href="#" class="" title="">
+                folow
+              </a>
+            </div>
+
+            <div class="question-user-info">
               <div class="user-info ">
-                <div class="user-action-time">
-                  asked <span title="2020-08-14 12:44:29Z" class="relativetime">1 hour ago</span>
+                <div class="user-action-time">asked 
+                  <span title="2020-08-14 12:44:29Z" class="relativetime">
+                    {{ date("j-n-Y, g:i a", strtotime($question->created_at) - strtotime(date_default_timezone_set("Asia/Bangkok"))) }} ago
+                  </span>
                 </div>
 
                 <div class="user-avatar">
@@ -231,8 +296,33 @@
           </div>
         </div>
         <!-- end postcell right -->
+
+        <div class="comment-wrap">
+          <a href="#">add a comment</a>
+        </div>
       </div>
     </div>
+  </div>
+  <!-- end mainbar -->
+
+  <div class="answer">
+    <h2 class="fn-answer" style="padding-top: 8px; margin-top: 30px;">
+      Know someone who can answer? Share a link to this 
+      <a href="">question</a>
+    </h2>
+
+    <h2 class="fn-answer" style="margin: 15px 0;">Your Answer</h2>
+      <form role="form" action="/question" method="POST">
+        @csrf
+          <div class="form-group">
+            <textarea name="content" rows="10" class="form-control my-editor">{!! old('content', '') !!}</textarea>
+            @error('content')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+          </div>
+        
+          <button type="submit" class="btn btn-info" style="margin-bottom: 2em;">Submit</button>
+      </form>
   </div>
 </div>
 
@@ -263,3 +353,44 @@
   </div>
 </div> --}}
 @endsection
+
+@push('script')
+  <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+
+  <script>
+    var editor_config = {
+      path_absolute : "/",
+      selector: "textarea.my-editor",
+      plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor colorpicker textpattern"
+      ],
+      toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+      relative_urls: false,
+      file_browser_callback : function(field_name, url, type, win) {
+        var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+        var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
+
+        var cmsURL = editor_config.path_absolute + 'laravel-filemanager?field_name=' + field_name;
+        if (type == 'image') {
+          cmsURL = cmsURL + "&type=Images";
+        } else {
+          cmsURL = cmsURL + "&type=Files";
+        }
+
+        tinyMCE.activeEditor.windowManager.open({
+          file : cmsURL,
+          title : 'Filemanager',
+          width : x * 0.8,
+          height : y * 0.8,
+          resizable : "yes",
+          close_previous : "no"
+        });
+      }
+    };
+
+    tinymce.init(editor_config);
+  </script>
+@endpush
