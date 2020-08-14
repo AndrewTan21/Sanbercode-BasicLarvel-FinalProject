@@ -12,7 +12,7 @@
                     {{session('success')}}
                 </div>
             @endif
-            <a href="{{ route('question.create') }}" class="btn btn-primary mb-3" style="margin-bottom: 1.25rem;">Create New Question</a>
+            <a href="{{ route('question.create') }}" class="btn btn-info mb-3" style="margin-bottom: 1.25rem;">Create New Question</a>
             <table id="example1" class="table table-bordered">
                 <thead>                  
                 <tr>

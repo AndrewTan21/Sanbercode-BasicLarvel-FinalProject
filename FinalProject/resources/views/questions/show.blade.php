@@ -1,32 +1,33 @@
 @extends('adminlte.master')
 @section('content')
 
-<section class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>{{$question->title}}</h1>
-        </div>
-      </div>
-    </div><!-- /.container-fluid -->
-  </section>
-  <section class="content">
-
-    <!-- Default box -->
-    <div class="card">
+<div class="mt-3 ml-3 mr-3">
+  <div class="card card-primary">
       <div class="card-header">
-        <h3 class="card-title">{!!$question->content!!}</h3>        
-      </div>
-      <div class="card-header">
-        <h3 class="card-title">{{$question->tag}}</h3>        
+      <h3 class="card-title">Show Page</h3>
       </div>
       
+          <div class="card-body">
+              <!-- title -->
+              <div class="form-group">
+              <label for="title">Title</label>
+              <div class="card"> {{$question->title}}</div>
+              </div>
+              <!-- content -->
+              <div class="form-group">
+              <label for="content">Content</label>
+              <div class="card"> {!!$question->content!!}</div> 
+              </div>
+              <!-- tag -->
+              <div class="form-group">
+              <label for="tag">Tag</label>
+              <div class="card"> {{$question->tag}}</div>
+              </div>
+          </div>
       <!-- /.card-body -->
-    
-      <!-- /.card-footer-->
-    </div>
-    <!-- /.card -->
-
+      </form>
+  </div>
+</div>
   </section>
 
 @endsection
