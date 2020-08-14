@@ -91,7 +91,7 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        {{-- <a href="{{ url('/home') }}">Home</a> --}}
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
@@ -104,21 +104,26 @@
 
             <!-- Button trigger modal -->
             <!-- Modal -->
-            <div class="modal fade modal-bg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: red; opacity: 1;">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel" style="color: #636b6f; font-size: 50px; font-weight: bold;">How to access</h4>
-                        </div>
-                        <div class="modal-body">
-                            <img src="{{asset('assets/img/tumpukanMeluap.gif')}}" alt="this slowpoke moves" style="width: 100%;"/>
+            @guest
+                @if (Route::has('register'))
+                    <div class="modal fade modal-bg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: red; opacity: 1;">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel" style="color: #636b6f; font-size: 50px; font-weight: bold;">How to access</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="{{asset('assets/img/tumpukanMeluap.gif')}}" alt="this slowpoke moves" style="width: 100%;"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                @endif
+            @else
+            @endguest
 
             <div class="content">
                 <div class="title m-b-md">
