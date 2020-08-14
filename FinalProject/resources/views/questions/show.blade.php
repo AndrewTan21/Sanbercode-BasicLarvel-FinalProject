@@ -174,6 +174,19 @@
     opacity: .6;
     padding: 0 3px 2px;
   }
+
+  .commentarea {
+    margin-top: 15px;
+    border-radius: 5px;
+    border-color: rgb(228, 230, 232);
+    padding: 10px;
+    display: none;
+    width: 100%;
+  }
+  .commentarea:focus {
+    outline: 0;
+    border-color: #000000;
+  }
 </style>
 
 <div class="content">
@@ -198,35 +211,28 @@
       <div class="post-layout">
         <!-- Content posting -->
         <div class="votecell post-layout--left">
-          <div class="wrap-btn" data-post-id="63413020">
-            <button class="btn-arrow">
-              <svg aria-hidden="true" class="" width="36" height="36" viewBox="0 0 36 36">
-                <path d="M2 26h32L18 10 2 26z"></path>
-              </svg>
-            </button>
-
-            {{-- <div id="--stacks-s-tooltip-66m5oiza" class="" aria-hidden="true" role="tooltip">This question shows research effort; it is useful and clear
-              <div class=""></div>
-            </div> --}}
-            
-            <div class="text-center" itemprop="upvoteCount" data-value="0">0</div>
-
-            <button class="btn-arrow">
-              <svg aria-hidden="true" class="" width="36" height="36" viewBox="0 0 36 36">
-                <path d="M2 10h32L18 26 2 10z"></path>
-              </svg>
-            </button>
-
-            {{-- <div id="--stacks-s-tooltip-u19wil8r" class="" aria-hidden="true" role="tooltip">This question does not show any research effort; it is unclear or not useful
-              <div class=""></div>
-            </div> --}}
-
-            <button class="btn-show-repost">
-              <svg aria-hidden="true" class="" width="19" height="18" viewBox="0 0 18 18">
-                <path d="M3 9a8 8 0 113.73 6.77L8.2 14.3A6 6 0 105 9l3.01-.01-4 4-4-4h3L3 9zm7-4h1.01L11 9.36l3.22 2.1-.6.93L10 10V5z"></path>
-              </svg>
-
-          </button>
+          <div class="wrap-btn">
+            <form action="/" method="POST">
+              <button class="btn-arrow">
+                <svg class="" width="36" height="36">
+                  <path d="M2 26h32L18 10 2 26z"></path>
+                </svg>
+              </button>
+              
+              <div class="text-center" itemprop="upvoteCount" data-value="0">0</div>
+  
+              <button class="btn-arrow">
+                <svg class="" width="36" height="36">
+                  <path d="M2 10h32L18 26 2 10z"></path>
+                </svg>
+              </button>
+  
+              <button class="btn-show-repost">
+                <svg class="" width="19" height="18">
+                  <path d="M3 9a8 8 0 113.73 6.77L8.2 14.3A6 6 0 105 9l3.01-.01-4 4-4-4h3L3 9zm7-4h1.01L11 9.36l3.22 2.1-.6.93L10 10V5z"></path>
+                </svg>
+              </button>
+            </form>
           </div>
         </div>
 
@@ -239,6 +245,9 @@
 
           <div class="post-taglist grid gs4 gsy fd-column">
             <div class="grid ps-relative d-block">
+              {{-- @foreach ($tas as $tag)
+                <a href="/questions/tagged/html" class="post-tag" title="" rel="tag">html</a>
+              @endforeach --}}
               <a href="/questions/tagged/javascript" class="post-tag" title="" rel="tag">javascript</a>
               <a href="/questions/tagged/html" class="post-tag" title="" rel="tag">html</a>
               <a href="/questions/tagged/npm" class="post-tag" title="" rel="tag">npm</a>
@@ -283,7 +292,7 @@
                     <div class="-flair">
                       <span class="reputation-score" title="reputation score " dir="ltr">1</span>
 
-                      <span title="3 bronze badges" aria-hidden="true">
+                      <span title="3 bronze badges">
                         <span class="badge3"></span>
                         <span class="badgecount">3</span>
                       </span>
@@ -298,7 +307,10 @@
         <!-- end postcell right -->
 
         <div class="comment-wrap">
-          <a href="#">add a comment</a>
+          <form action="/" method="POST">
+            <a id="addComment" href="#">add a comment</a>
+            <textarea type="text" id="showComment" class="commentarea" rows="6" name="comment" placeholder="your comment"></textarea>
+          </form>
         </div>
       </div>
     </div>
@@ -321,37 +333,10 @@
             @enderror
           </div>
         
-          <button type="submit" class="btn btn-info" style="margin-bottom: 2em;">Submit</button>
+          <button type="submit" class="btn btn-info" style="margin-bottom: 2em;">Post Your Answer</button>
       </form>
   </div>
 </div>
-
-{{-- <div class="mt-3 ml-3 mr-3">
-  <div class="card card-danger">
-      <div class="card-header">
-        <h3 class="card-title">Show Page</h3>
-      </div>
-      
-          <div class="card-body">
-              <!-- title -->
-              <div class="form-group">
-                <label for="title">Title</label>
-                  <div class="card-title"> {{$question->title}}</div>
-              </div>
-              <!-- content -->
-              <div class="form-group">
-                <label for="content">Content</label>
-                  <div class="card-title"> {!!$question->content!!}</div> 
-              </div>
-              <!-- tag -->
-              <div class="form-group">
-                <label for="tag">Tag</label>
-                  <div class="card-title"> {{$question->tag}}</div>
-              </div>
-          </div>
-      <!-- /.card-body -->
-  </div>
-</div> --}}
 @endsection
 
 @push('script')
@@ -392,5 +377,30 @@
     };
 
     tinymce.init(editor_config);
+
+    $(function () {
+      var div = $('#showComment');
+      $('#addComment').click(function () {
+          div.fadeToggle(1000);
+      });
+    });
+
+    $(document).ready(function() {
+      $('.commentarea').keydown(function(event) {
+        if (event.which == 13) {
+          this.form.submit();
+          event.preventDefault();
+        }
+      });
+    });
+
+    $(document).ready(function() {
+      $('.btn-arrow').click(function(event) {
+        if (event) {
+          this.form.submit();
+          event.preventDefault();
+        }
+      });
+    });
   </script>
 @endpush
