@@ -42,4 +42,8 @@ class User extends Authenticatable
      * @var string
      */
     protected $table = 'profiles'; // add this line with your table name
+    
+    public function questions() {
+        return $this->hasMany('App\Question', "profile_id");
+    }
 }

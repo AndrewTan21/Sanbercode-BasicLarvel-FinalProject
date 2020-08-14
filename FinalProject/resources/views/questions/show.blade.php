@@ -226,13 +226,13 @@
                   <path d="M2 10h32L18 26 2 10z"></path>
                 </svg>
               </button>
-  
+            </form>
+
               <button class="btn-show-repost">
                 <svg class="" width="19" height="18">
                   <path d="M3 9a8 8 0 113.73 6.77L8.2 14.3A6 6 0 105 9l3.01-.01-4 4-4-4h3L3 9zm7-4h1.01L11 9.36l3.22 2.1-.6.93L10 10V5z"></path>
                 </svg>
               </button>
-            </form>
           </div>
         </div>
 
@@ -245,13 +245,11 @@
 
           <div class="post-taglist grid gs4 gsy fd-column">
             <div class="grid ps-relative d-block">
-              {{-- @foreach ($tas as $tag)
-                <a href="/questions/tagged/html" class="post-tag" title="" rel="tag">html</a>
-              @endforeach --}}
-              <a href="/questions/tagged/javascript" class="post-tag" title="" rel="tag">javascript</a>
-              <a href="/questions/tagged/html" class="post-tag" title="" rel="tag">html</a>
-              <a href="/questions/tagged/npm" class="post-tag" title="" rel="tag">npm</a>
-              <a href="/questions/tagged/dat.gui" class="post-tag" title="" rel="tag">dat.gui</a> 
+              @forelse ($question->tags as $tag)
+                <a href="/questions/{{$tag->name}}" class="post-tag" title="tags" rel="tag">{{$tag->name}}</a>
+                @empty
+                <a class="post-tag" title="tag" rel="tag">No Tags</a>
+              @endforelse
             </div>
           </div>
 
@@ -378,6 +376,7 @@
 
     tinymce.init(editor_config);
 
+    // fade input type comment
     $(function () {
       var div = $('#showComment');
       $('#addComment').click(function () {
@@ -385,6 +384,7 @@
       });
     });
 
+    // vanilla javascript event keydown submit for comment
     $(document).ready(function() {
       $('.commentarea').keydown(function(event) {
         if (event.which == 13) {
@@ -394,6 +394,7 @@
       });
     });
 
+    // vanilla javascript event click submit for vote
     $(document).ready(function() {
       $('.btn-arrow').click(function(event) {
         if (event) {

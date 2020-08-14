@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Question;
+use App\Tag;
+use DB;
+use Auth;
 
 class TumpukanMeluapController extends Controller
 {
@@ -28,8 +31,13 @@ class TumpukanMeluapController extends Controller
         //
         // eloquent
         $page = 'Question';
-        $questions = Question::all();
-
+        if (Auth::user()) {
+            $user = Auth::user();
+            $questions = $user->questions;
+        } else {
+            $questions = Question::all();
+        }
+        
         return view('questions.index', ['page' => $page], compact('questions'));
     }
 
@@ -60,11 +68,33 @@ class TumpukanMeluapController extends Controller
             "tag" => 'required'
         ]);
 
-        $question = new Question;
-        $question->title = $request->title;
-        $question->content = $request->content;
-        $question->tag = $request->tag;
-        $question->save();
+        $tags_arr = explode(',', $request['tag']);
+
+        $tag_ids = [];
+        foreach($tags_arr as $tag_name) {
+            $tag = Tag::where("name", $tag_name)->first();
+
+            if($tag) {
+                $tag_ids[] = $tag->id;
+            } else {
+                $new_tag = Tag::create(["name" => $tag_name]);
+                $tag_ids[] = $new_tag->id;
+            }
+        }
+
+        // $question = new Question;
+        // $question->title = $request->title;
+        // $question->content = $request->content;
+
+        $question = Question::create([
+            "title" => $request['title'],
+            "content" => $request['content'],
+            "tag" => $request['tag']
+        ]);
+
+        $question->tags()->sync($tag_ids);
+        $user = Auth::user();
+        $user->questions()->save($question);
 
         return redirect('/question')->with('success', 'Pertanyaan berhasil di simpan');
     }
