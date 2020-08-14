@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="mt-3 ml-3 mr-3">
-  <div class="card card-primary">
+  <div class="card card-danger">
       <div class="card-header">
       <h3 class="card-title">Show Page</h3>
       </div>
