@@ -5,5 +5,5 @@
       Anything you want
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2020 <a href="https://tumpukanmeluap.github.io">Tumpukanmeluap.github.io</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2020-2020 + 1day <a href="https://sanbercode-finalproject.herokuapp.com/">https://sanbercode-finalproject.herokuapp.com/</a>.</strong> All rights reserved.
 </footer>
