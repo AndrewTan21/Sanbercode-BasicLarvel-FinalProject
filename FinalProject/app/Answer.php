@@ -13,7 +13,7 @@ class Answer extends Model
         return $this->hasMany('App\Answer','id','reply_id');
     }
 
-    // public function tags() {
-    //     return $this->belongsToMany('App\Tag', 'question_tag', 'question_id', 'tag_id');
-    // }
+     public function tags() {
+         return $this->belongsToMany('App\Tag', 'question_tag', 'question_id', 'tag_id');
+     }
 }
