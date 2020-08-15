@@ -326,8 +326,8 @@
                     </div>
 
                     <div class="user-details" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-                      <a href="/users/13431739/pythonisfine">PythonisFine</a>
-                      <span class="d-none" itemprop="name">PythonisFine</span>
+                      <a href="/users/13431739/pythonisfine">{{ Auth::user()->name ?? 'Guest' }}</a>
+                      <span class="d-none" itemprop="name">{{ Auth::user()->name ?? 'Guest' }}</span>
                         <div class="-flair">
                           <span class="reputation-score" title="reputation score " dir="ltr">1</span>
 
@@ -361,7 +361,7 @@
                           {{$comment_question->content}}
                         </span>
                         –&nbsp;
-                        <a href="" title="" class="comment-user">Vicky Gonsalves</a>
+                        <a href="" title="" class="comment-user">{{ Auth::user()->name ?? 'Guest' }}</a>
                         <span class="comment-date" dir="ltr">
                           <a class="comment-link" href="">
                             <span title="" class="relativetime-clean">
@@ -456,8 +456,8 @@
                         </div>
 
                         <div class="user-details" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-                          <a href="/users/13431739/pythonisfine">PythonisFine</a>
-                          <span class="d-none" itemprop="name">PythonisFine</span>
+                          <a href="/users/13431739/pythonisfine">{{ Auth::user()->name ?? 'Guest' }}</a>
+                          <span class="d-none" itemprop="name">{{ Auth::user()->name ?? 'Guest' }}</span>
                             <div class="-flair">
                               <span class="reputation-score" title="reputation score " dir="ltr">1</span>
 
@@ -491,7 +491,7 @@
                               {{$comment_question->content}}
                             </span>
                             –&nbsp;
-                            <a href="" title="" class="comment-user">Vicky Gonsalves</a>
+                            <a href="" title="" class="comment-user">{{ Auth::user()->name ?? 'Guest' }}</a>
                             <span class="comment-date" dir="ltr">
                               <a class="comment-link" href="">
                                 <span title="" class="relativetime-clean">
