@@ -4,19 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Question;
-use App\QuestionComment;
+use App\Answer;
 use App\Tag;
 use DB;
 use Auth;
 
-class TumpukanMeluapController extends Controller
+class AnswerController extends Controller
 {
-    /**
-     * First a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
     public function __construct()
     {
         $this->middleware('auth')->except('index');
@@ -30,28 +24,6 @@ class TumpukanMeluapController extends Controller
     public function index()
     {
         //
-        // eloquent
-        $page = 'Question';
-        if (Auth::user()) {
-            $user = Auth::user();
-            $questions = $user->questions;
-        } else {
-            $questions = Question::all();
-        }
-        
-        return view('questions.index', ['page' => $page], compact('questions'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-        $page = 'Create Question';
-        return view('questions.create', ['page' => $page]);
     }
 
     /**
@@ -60,63 +32,28 @@ class TumpukanMeluapController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Question $question)
     {
-        //
-        $request->validate([
-            "title" => 'required|unique:questions',
-            "content" => 'required',
-            "tag" => 'required'
-        ]);
+        $answer = new Answer;
+        $answer->users_id = request()->user()->uuid;
+        $answer->question_id = $question->uuid;
+        $answer->content = request('content');
+        $answer->save();
 
-        $tags_arr = explode(',', $request['tag']);
+        return redirect('question/'.$question->uuid)
+                    ->with('success', 'Jawaban Anda Berhasil Disimpan');
 
-        $tag_ids = [];
-        foreach($tags_arr as $tag_name) {
-            // $tag = Tag::where("name", $tag_name)->first();
+        // $request->validate([
+        //     "content" => 'required',
+        //     "point_vote" => 'required',
+        //     "tag" => 'required'
+        // ]);
 
-            // if($tag) {
-            //     $tag_ids[] = $tag->id;
-            // } else {
-            //     $new_tag = Tag::create(["name" => $tag_name]);
-            //     $tag_ids[] = $new_tag->id;
-            // }
-
-            $tag = Tag::firstOrCreate(["name" => $tag_name]);
-            $tag_ids[] = $tag->id;
-        }
-
-        // $question = new Question;
-        // $question->title = $request->title;
-        // $question->content = $request->content;
-
-        $question = Question::create([
-            "title" => $request['title'],
-            "content" => $request['content'],
-            "tag" => $request['tag']
-        ]);
-
-        $question->tags()->sync($tag_ids);
-        $user = Auth::user();
-        $user->questions()->save($question);
-
-        return redirect('/question')->with('success', 'Pertanyaan berhasil di simpan');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-        // dengan eloquent
-        $page = 'Question Detail';
-        $question = Question::find($id);
-
-        return view('questions.show', ['page' => $page], ["question" => $question]);
+        // $answer = Answer::create([
+        //     'content' => $request->content,
+        //     'question_id' => $id,
+        //     'users_id' => Auth::id()
+        // ]);
     }
 
     /**
@@ -125,14 +62,17 @@ class TumpukanMeluapController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Answer $answer)
     {
-        //
-        // $question = DB::table('questions')->where('id', $id)->first();
-        $question = Question::where('id', $id)->first();
-        $page = 'Edit Question';
+        $data['question'] = $answer->question;
+        $data['answer'] = $answer;
+        return view('answer.edit, $data');
 
-        return view('questions.edit', ['page' => $page], compact('question'));
+        // $question = DB::table('questions')->where('id', $id)->first();
+        // $question = Question::where('id', $id)->first();
+        // $page = 'Edit Question';
+
+        // return view('questions.edit', ['page' => $page], compact('question'));
     }
 
     /**
@@ -142,17 +82,20 @@ class TumpukanMeluapController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Answer $answer)
     {
+        $answer->content = request('content');
+        $answer->save();
+        return redirect('question/'.$answer->pertanyaan->uuid)->with('success', 'Jawaban Anda Berhasil Disimpan');
         //
-        $update = Question::where('id', $id)->update([
-            'title' => $request['title'],
-            'content' => $request['content'],
-            'tag' => $request['tag']
-        ]);
+        // $update = Question::where('id', $id)->update([
+        //     'title' => $request['title'],
+        //     'content' => $request['content'],
+        //     'tag' => $request['tag']
+        // ]);
 
 
-        return redirect('/question')->with('success', 'Berhasil update post!');
+        // return redirect('/question')->with('success', 'Berhasil update post!');
     }
 
     /**
@@ -161,24 +104,13 @@ class TumpukanMeluapController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Answer $answer)
     {
+        $answer->delete();
+        return back()->with('success', 'Jawaban Berhasil Dihapus');
         //
-        Question::destroy($id);
-        return redirect('/question')->with('success', "Pertanyaan berhasil di hapus!");
+        // Question::destroy($id);
+        // return redirect('/question')->with('success', "Pertanyaan berhasil di hapus!");
     }
 
-    public function comment(Request $request)
-    {
-        // dd($request);
-
-        $questionComment = QuestionComment::create([
-            "content" => $request['content']
-        ]);
-
-        $user = Auth::user();
-        $user->questions_comment()->save($questionComment);
-
-        return redirect('/question')->with('success', 'Pertanyaan berhasil di simpan');
-    }
 }
