@@ -68,7 +68,7 @@
     font-size: 12px;
     color: rgb(57, 115, 157);
     background-color: rgb(225, 236, 244);;
-    border-color: transparent;
+    border-color: lightpink;
     display: inline-block;
     padding: .4em .5em;
     margin: 2px 2px 2px 0;
@@ -174,7 +174,7 @@
   }
 
   .comment-wrap a {
-    color: #848d95;
+    color: red;
     opacity: .6;
     padding: 0 3px 2px;
   }
@@ -226,7 +226,8 @@
     cursor: pointer;
   }
 </style>
-
+<div class="card">
+<div class="card-body" style="background-color: rgb(225, 236, 244)">
 <div class="content">
   <div class="question-header">
     <h1><a href="#">{{$question->title}}</a></h1>
