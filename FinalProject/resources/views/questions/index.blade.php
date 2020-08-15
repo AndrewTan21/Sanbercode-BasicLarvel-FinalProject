@@ -16,7 +16,7 @@
             <table id="example1" class="table table-bordered">
                 <thead>                  
                 <tr>
-                    <th style="width: 30px">id</th>
+                    <th style="width: 100px">id</th>
                     <th>Title</th>
                     <th>Content</th>
                     <th>Tag</th>
