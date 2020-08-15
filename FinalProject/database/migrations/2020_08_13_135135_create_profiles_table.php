@@ -19,7 +19,7 @@ class CreateProfilesTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('reputaion')->nullable();
+            $table->integer('reputation')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
