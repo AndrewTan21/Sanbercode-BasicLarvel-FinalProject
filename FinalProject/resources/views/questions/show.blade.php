@@ -13,6 +13,10 @@
     display: grid;
     grid-template-columns: max-content 1fr;
     box-sizing: inherit;
+    border-bottom: 1px solid rgb(228, 230, 232);
+  }
+  .post-layout:nth-last-child(1) {
+    border-bottom: 0;
   }
 
   .post-layout--left, .post-layout--left.votecell {
@@ -215,6 +219,9 @@
     min-width: 0;
     flex-basis: 0;
   }
+  .form-addcoment {
+    margin: 15px 0;
+  }
 </style>
 
 <div class="content">
@@ -362,10 +369,10 @@
               </ul>
             </div>
           @empty
-            <a class="post-tag" title="tag" rel="tag">No Tags</a>
+            <a class="post-tag" title="tag" rel="tag">No Comment</a>
           @endforelse
 
-          <form action="/question/comment" role="form" method="POST">
+          <form action="/question/comment" class="form-addcoment" role="form" method="POST">
             @csrf
             <a id="addComment" href="#">add a comment</a>
             <textarea type="text" id="showComment" class="commentarea" rows="6" name="content" placeholder="your comment"></textarea>
@@ -374,6 +381,146 @@
 
         
       </div>
+
+      @forelse ($question->answers as $answer)
+        <div class="post-layout">
+          <!-- Content posting -->
+            <div class="votecell post-layout--left">
+              <div class="wrap-btn">
+                <form action="/" role="form" method="POST">
+                  @csrf
+                  <button class="btn-arrow">
+                    <svg class="" width="36" height="36">
+                      <path d="M2 26h32L18 10 2 26z"></path>
+                    </svg>
+                  </button>
+                  
+                  <div class="text-center" itemprop="upvoteCount" data-value="0">0</div>
+      
+                  <button class="btn-arrow">
+                    <svg class="" width="36" height="36">
+                      <path d="M2 10h32L18 26 2 10z"></path>
+                    </svg>
+                  </button>
+                </form>
+
+                  <button class="btn-show-repost">
+                    <svg class="" width="19" height="18">
+                      <path d="M3 9a8 8 0 113.73 6.77L8.2 14.3A6 6 0 105 9l3.01-.01-4 4-4-4h3L3 9zm7-4h1.01L11 9.36l3.22 2.1-.6.93L10 10V5z"></path>
+                    </svg>
+                  </button>
+              </div>
+            </div>
+
+            <div class="postcell post-layout--right">
+              <div class="post-text" itemprop="text">
+                <p>
+                  {!!$answer->content!!}
+                </p>
+              </div>
+
+              <div class="post-taglist grid gs4 gsy fd-column">
+                <div class="grid ps-relative d-block">
+                  @forelse ($question->tags as $tag)
+                    <a href="/questions/{{$tag->name}}" class="post-tag" title="tags" rel="tag">{{$tag->name}}</a>
+                    @empty
+                    <a class="post-tag" title="tag" rel="tag">No Tags</a>
+                  @endforelse
+                </div>
+              </div>
+
+              <div class="question-post">
+                <div class="post-menu">
+                  <a href="#" class="" title="">
+                    share
+                  </a>
+
+                  <a href="#" class="" title="">
+                    improve this question
+                  </a>
+
+                  <a href="#" class="" title="">
+                    folow
+                  </a>
+                </div>
+
+                <div class="question-user-info">
+                  <div class="user-info ">
+                    <div class="user-action-time">asked 
+                      <span title="2020-08-14 12:44:29Z" class="relativetime">
+                        {{ date("j-n-Y, g:i a", strtotime($answer->created_at) - strtotime(date_default_timezone_set("Asia/Bangkok"))) }} ago
+                      </span>
+                    </div>
+
+                    <div class="user-avatar">
+                      <a href="/users/13431739/pythonisfine">
+                        <div class="gravatar-wrapper-32">
+                          <img src="https://www.gravatar.com/avatar/4d5478c39e22e5310f00c82eadb2884d?s=32&amp;d=identicon&amp;r=PG&amp;f=1" alt="" width="32" height="32" class="bar-sm">
+                        </div>
+                      </a>
+                    </div>
+
+                    <div class="user-details" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                      <a href="/users/13431739/pythonisfine">PythonisFine</a>
+                      <span class="d-none" itemprop="name">PythonisFine</span>
+                        <div class="-flair">
+                          <span class="reputation-score" title="reputation score " dir="ltr">1</span>
+
+                          <span title="3 bronze badges">
+                            <span class="badge3"></span>
+                            <span class="badgecount">3</span>
+                          </span>
+
+                          <span class="v-visible-sr">3 bronze badges</span>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end postcell right -->
+
+            <div class="comment-wrap">
+              @forelse ($question->questions_comment as $comment_question)
+                <div class="cnt-wrap">
+                  <ul class="comment-reputation">
+                    <li id="comment-52727516" style="display: contents;">
+                      <div class="numb-vote">
+                        <div class="vote-wrap">
+                          <span title="" class="cool">4</span>
+                        </div>
+                      </div>
+                      
+                      <div class="comment-title">
+                        <span class="comment-copy">
+                          {{$comment_question->content}}
+                        </span>
+                        –&nbsp;
+                        <a href="" title="" class="comment-user">Vicky Gonsalves</a>
+                        <span class="comment-date" dir="ltr">
+                          <a class="comment-link" href="">
+                            <span title="" class="relativetime-clean">
+                              {{ date("j-n-Y, g:i a", strtotime($question->created_at) - strtotime(date_default_timezone_set("Asia/Bangkok"))) }}
+                            </span>
+                          </a>
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              @empty
+                <a class="post-tag" title="tag" rel="tag">No Comment</a>
+              @endforelse
+
+              <form action="/question/comment" class="form-addcoment" role="form" method="POST">
+                @csrf
+                <a id="addComment" href="#">add a comment</a>
+                <textarea type="text" id="showComment" class="commentarea" rows="6" name="content" placeholder="your comment"></textarea>
+              </form>
+            </div>
+          </div>
+        @empty
+      @endforelse
     </div>
   </div>
   <!-- end mainbar -->
@@ -385,7 +532,7 @@
     </h2>
 
     <h2 class="fn-answer" style="margin: 15px 0;">Your Answer</h2>
-      <form id="noReloadAnswer" role="form" action="/answer" method="POST">
+      <form id="noReloadAnswer" role="form" action="/question/{{$question->id}}" method="POST">
         @csrf
           <div class="form-group">
             <textarea name="content" rows="10" class="form-control my-editor">{!! old('content', '') !!}</textarea>

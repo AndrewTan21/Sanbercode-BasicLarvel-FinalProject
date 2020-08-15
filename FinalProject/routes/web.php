@@ -24,8 +24,10 @@ Route::get('/', function () {
 // Route::delete('/question/{id}', 'TumpukanMeluapController@destroy');
 Route::resource('question', 'TumpukanMeluapController');
 Route::resource('answer', 'AnswerController');
+
 Route::post('/question/comment', 'TumpukanMeluapController@commentStore');
 Route::get('/question/{id}', 'TumpukanMeluapController@commentGet');
+Route::post('/question/{id}', 'AnswerController@answerStore');
 
 Auth::routes();
 

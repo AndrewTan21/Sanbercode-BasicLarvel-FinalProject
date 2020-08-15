@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Question;
+use App\QuestionComment;
 use App\Answer;
 use App\Tag;
 use DB;
@@ -35,12 +36,13 @@ class AnswerController extends Controller
     public function store(Question $question)
     {
         $answer = new Answer;
-        $answer->users_id = request()->user()->uuid;
-        $answer->question_id = $question->uuid;
+        // $answer->users_id = request()->user()->id;
+        $answer->profile_id = request()->user()->id;
+        $answer->question_id = $question->id;
         $answer->content = request('content');
         $answer->save();
 
-        return redirect('question/'.$question->uuid)
+        return redirect('question/'.$question->id)
                     ->with('success', 'Jawaban Anda Berhasil Disimpan');
 
         // $request->validate([
@@ -113,4 +115,27 @@ class AnswerController extends Controller
         // return redirect('/question')->with('success', "Pertanyaan berhasil di hapus!");
     }
 
+    public function comment(Request $request)
+    {
+        // dd($request);
+
+        $questionComment = QuestionComment::create([
+            "content" => $request['content']
+        ]);
+
+        $user = Auth::user();
+        $user->questions_comment()->save($questionComment);
+
+        return redirect('/question')->with('success', 'Pertanyaan berhasil di simpan');
+    }
+
+    public function answerStore($id) {
+        $answer = new Answer;
+        $answer->profile_id = request()->user()->id;
+        $answer->question_id = $id;
+        $answer->content = request('content');
+        $answer->save();
+
+        return redirect('question/'.$answer->question_id)->with('success', 'Jawaban Anda Berhasil Disimpan');
+    }
 }

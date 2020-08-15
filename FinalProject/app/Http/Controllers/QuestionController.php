@@ -178,6 +178,6 @@ class QuestionController extends Controller
         $user = Auth::user();
         $user->questions_comment()->save($questionComment);
 
-        return redirect('/question')->with('success', 'Komentar berhasil di simpan');
+        return redirect('questions.edit')->with('success', 'Komentar berhasil di simpan');
     }
 }
