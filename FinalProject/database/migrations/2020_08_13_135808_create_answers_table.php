@@ -15,7 +15,7 @@ class CreateAnswersTable extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->longText('content');
+            $table->longText('content')->nullable();
             $table->integer('point_vote')->default(0);
             $table->integer('reply_id')->default(0);
             $table->string('page_id')->default(0);

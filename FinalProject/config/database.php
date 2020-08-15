@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'mysql_production'),
 
     /*
     |--------------------------------------------------------------------------
@@ -61,6 +61,21 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+        ],
+
+        'mysql_production' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', 'us-cdbr-east-02.cleardb.com'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'heroku_86253e9de8331cf'),
+            'username' => env('DB_USERNAME', 'bb85c0c4187e00'),
+            'password' => env('DB_PASSWORD', 'a7de89a0'),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
         ],
 
         'pgsql' => [
