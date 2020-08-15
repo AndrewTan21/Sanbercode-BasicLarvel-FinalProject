@@ -15,9 +15,9 @@
     box-sizing: inherit;
     border-bottom: 1px solid rgb(228, 230, 232);
   }
-  .post-layout:nth-last-child(1) {
+  /* .post-layout:nth-last-child(1) {
     border-bottom: 0;
-  }
+  } */
 
   .post-layout--left, .post-layout--left.votecell {
       width: auto;
@@ -222,6 +222,9 @@
   .form-addcoment {
     margin: 15px 0;
   }
+  .mouse {
+    cursor: pointer;
+  }
 </style>
 
 <div class="content">
@@ -296,11 +299,11 @@
               </a>
 
               <a href="#" class="" title="">
-                improve this question
+                edit
               </a>
 
               <a href="#" class="" title="">
-                folow
+                follow
               </a>
             </div>
 
@@ -374,7 +377,7 @@
 
           <form action="/question/comment" class="form-addcoment" role="form" method="POST">
             @csrf
-            <a id="addComment" href="#">add a comment</a>
+            <a id="addComment" class="mouse">add a comment</a>
             <textarea type="text" id="showComment" class="commentarea" rows="6" name="content" placeholder="your comment"></textarea>
           </form>
         </div>
@@ -419,16 +422,6 @@
                 </p>
               </div>
 
-              <div class="post-taglist grid gs4 gsy fd-column">
-                <div class="grid ps-relative d-block">
-                  @forelse ($question->tags as $tag)
-                    <a href="/questions/{{$tag->name}}" class="post-tag" title="tags" rel="tag">{{$tag->name}}</a>
-                    @empty
-                    <a class="post-tag" title="tag" rel="tag">No Tags</a>
-                  @endforelse
-                </div>
-              </div>
-
               <div class="question-post">
                 <div class="post-menu">
                   <a href="#" class="" title="">
@@ -436,11 +429,11 @@
                   </a>
 
                   <a href="#" class="" title="">
-                    improve this question
+                    edit
                   </a>
 
                   <a href="#" class="" title="">
-                    folow
+                    follow
                   </a>
                 </div>
 
@@ -514,8 +507,8 @@
 
               <form action="/question/comment" class="form-addcoment" role="form" method="POST">
                 @csrf
-                <a id="addComment" href="#">add a comment</a>
-                <textarea type="text" id="showComment" class="commentarea" rows="6" name="content" placeholder="your comment"></textarea>
+                <a class="mouse" onclick="myFunction({{$answer->id}})">add a comment</a>
+              <textarea type="text" id="showComment{{$answer->id}}" class="commentarea" rows="6" name="content" placeholder="your comment"></textarea>
               </form>
             </div>
           </div>
@@ -545,6 +538,16 @@
       </form>
   </div>
 </div>
+
+<?php
+  function runMyFunction() {
+    echo 'I just ran a php function';
+  }
+
+  if (isset($_GET['hello'])) {
+    runMyFunction();
+  }
+?>
 @endsection
 
 @push('script')
@@ -593,6 +596,11 @@
           div.fadeToggle(1000);
       });
     });
+
+    function myFunction(id) {
+      var div = $('#showComment'+id);
+      div.fadeToggle(1000);
+    };
 
     // vanilla javascript event keydown submit for comment
     $(document).ready(function() {
