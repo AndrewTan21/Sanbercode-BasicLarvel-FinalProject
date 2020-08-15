@@ -223,7 +223,8 @@
     margin: 15px 0;
   }
 </style>
-
+<div class="card">
+<div class="card-body" style="background-color:rgb(225, 236, 244)">
 <div class="content">
   <div class="question-header">
     <h1><a href="#">{{$question->title}}</a></h1>
