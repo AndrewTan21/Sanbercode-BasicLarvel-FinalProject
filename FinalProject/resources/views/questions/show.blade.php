@@ -228,168 +228,28 @@
   }
 </style>
 <div class="card">
-<div class="card-body" style="background-color: rgb(225, 236, 244)">
-<div class="content">
-  <div class="question-header">
-    <h1><a href="#">{{$question->title}}</a></h1>
-  </div>
-  
-  <div class="question-time">
-    <div class="mr-1" title="2020-08-14 12:44:29Z">
-      <span style="color: rgb(106, 115, 124);">Asked</span>
-      <time itemprop="dateCreated">{{date('l',strtotime($question->updated_at))}} - </time>
-    </div>
-      <div>
-        <span style="color: rgb(106, 115, 124);">Active</span>
-        <a href="?lastactivity" class="s-link s-link__inherit" title="2020-08-14 12:44:29Z">{{date('l',strtotime($question->created_at))}}</a>
+  <div class="card-body" style="background-color: rgb(225, 236, 244)">
+    <div class="content">
+      <div class="question-header">
+        <h1><a href="#">{{$question->title}}</a></h1>
       </div>
-    </div>
-  </div>
-
-  <div class="mainbar">
-    <div class="question">
-      <div class="post-layout">
-        <!-- Content posting -->
-        <div class="votecell post-layout--left">
-          <div class="wrap-btn">
-            <form action="/" role="form" method="POST">
-              @csrf
-              <button class="btn-arrow">
-                <svg class="" width="36" height="36">
-                  <path d="M2 26h32L18 10 2 26z"></path>
-                </svg>
-              </button>
-              
-              <div class="text-center" itemprop="upvoteCount" data-value="0">0</div>
-  
-              <button class="btn-arrow">
-                <svg class="" width="36" height="36">
-                  <path d="M2 10h32L18 26 2 10z"></path>
-                </svg>
-              </button>
-            </form>
-
-              <button class="btn-show-repost">
-                <svg class="" width="19" height="18">
-                  <path d="M3 9a8 8 0 113.73 6.77L8.2 14.3A6 6 0 105 9l3.01-.01-4 4-4-4h3L3 9zm7-4h1.01L11 9.36l3.22 2.1-.6.93L10 10V5z"></path>
-                </svg>
-              </button>
+      
+      <div class="question-time">
+        <div class="mr-1" title="2020-08-14 12:44:29Z">
+          <span style="color: rgb(106, 115, 124);">Asked</span>
+          <time itemprop="dateCreated">{{date('l',strtotime($question->updated_at))}} - </time>
+        </div>
+          <div>
+            <span style="color: rgb(106, 115, 124);">Active</span>
+            <a href="?lastactivity" class="s-link s-link__inherit" title="2020-08-14 12:44:29Z">{{date('l',strtotime($question->created_at))}}</a>
           </div>
         </div>
-
-        <div class="postcell post-layout--right">
-          <div class="post-text" itemprop="text">
-            <p>
-              {!!$question->content!!}
-            </p>
-          </div>
-
-          <div class="post-taglist grid gs4 gsy fd-column">
-            <div class="grid ps-relative d-block">
-              @forelse ($question->tags as $tag)
-                <a href="/questions/{{$tag->name}}" class="post-tag" title="tags" rel="tag">{{$tag->name}}</a>
-                @empty
-                <a class="post-tag" title="tag" rel="tag">No Tags</a>
-              @endforelse
-            </div>
-          </div>
-
-          <div class="question-post">
-            <div class="post-menu">
-              <a href="#" class="" title="">
-                share
-              </a>
-
-              <a href="#" class="" title="">
-                edit
-              </a>
-
-              <a href="#" class="" title="">
-                follow
-              </a>
-            </div>
-
-            <div class="question-user-info">
-              <div class="user-info ">
-                <div class="user-action-time">asked 
-                  <span title="2020-08-14 12:44:29Z" class="relativetime">
-                    {{ date("j-n-Y, g:i a", strtotime($question->created_at) - strtotime(date_default_timezone_set("Asia/Bangkok"))) }} ago
-                  </span>
-                </div>
-
-                <div class="user-avatar">
-                  <a href="/users/13431739/pythonisfine">
-                    <div class="gravatar-wrapper-32">
-                      <img src="https://www.gravatar.com/avatar/4d5478c39e22e5310f00c82eadb2884d?s=32&amp;d=identicon&amp;r=PG&amp;f=1" alt="" width="32" height="32" class="bar-sm">
-                    </div>
-                  </a>
-                </div>
-
-                <div class="user-details" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-                  <a href="/users/13431739/pythonisfine">PythonisFine</a>
-                  <span class="d-none" itemprop="name">PythonisFine</span>
-                    <div class="-flair">
-                      <span class="reputation-score" title="reputation score " dir="ltr">1</span>
-
-                      <span title="3 bronze badges">
-                        <span class="badge3"></span>
-                        <span class="badgecount">3</span>
-                      </span>
-
-                      <span class="v-visible-sr">3 bronze badges</span>
-                    </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- end postcell right -->
-
-        <div class="comment-wrap">
-          @forelse ($question->questions_comment as $comment_question)
-            <div class="cnt-wrap">
-              <ul class="comment-reputation">
-                <li id="comment-52727516" style="display: contents;">
-                  <div class="numb-vote">
-                    <div class="vote-wrap">
-                      <span title="" class="cool">4</span>
-                    </div>
-                  </div>
-                  
-                  <div class="comment-title">
-                    <span class="comment-copy">
-                      {{$comment_question->content}}
-                    </span>
-                    –&nbsp;
-                    <a href="" title="" class="comment-user">Vicky Gonsalves</a>
-                    <span class="comment-date" dir="ltr">
-                      <a class="comment-link" href="">
-                        <span title="" class="relativetime-clean">
-                          {{ date("j-n-Y, g:i a", strtotime($question->created_at) - strtotime(date_default_timezone_set("Asia/Bangkok"))) }}
-                        </span>
-                      </a>
-                    </span>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          @empty
-            <a class="post-tag" title="tag" rel="tag">No Comment</a>
-          @endforelse
-
-          <form action="/question/comment" class="form-addcoment" role="form" method="POST">
-            @csrf
-            <a id="addComment" class="mouse">add a comment</a>
-            <textarea type="text" id="showComment" class="commentarea" rows="6" name="content" placeholder="your comment"></textarea>
-          </form>
-        </div>
-
-        
       </div>
 
-      @forelse ($question->answers as $answer)
-        <div class="post-layout">
-          <!-- Content posting -->
+      <div class="mainbar">
+        <div class="question">
+          <div class="post-layout">
+            <!-- Content posting -->
             <div class="votecell post-layout--left">
               <div class="wrap-btn">
                 <form action="/" role="form" method="POST">
@@ -420,8 +280,18 @@
             <div class="postcell post-layout--right">
               <div class="post-text" itemprop="text">
                 <p>
-                  {!!$answer->content!!}
+                  {!!$question->content!!}
                 </p>
+              </div>
+
+              <div class="post-taglist grid gs4 gsy fd-column">
+                <div class="grid ps-relative d-block">
+                  @forelse ($question->tags as $tag)
+                    <a href="/questions/{{$tag->name}}" class="post-tag" title="tags" rel="tag">{{$tag->name}}</a>
+                    @empty
+                    <a class="post-tag" title="tag" rel="tag">No Tags</a>
+                  @endforelse
+                </div>
               </div>
 
               <div class="question-post">
@@ -443,7 +313,7 @@
                   <div class="user-info ">
                     <div class="user-action-time">asked 
                       <span title="2020-08-14 12:44:29Z" class="relativetime">
-                        {{ date("j-n-Y, g:i a", strtotime($answer->created_at) - strtotime(date_default_timezone_set("Asia/Bangkok"))) }} ago
+                        {{ date("j-n-Y, g:i a", strtotime($question->created_at) - strtotime(date_default_timezone_set("Asia/Bangkok"))) }} ago
                       </span>
                     </div>
 
@@ -509,35 +379,167 @@
 
               <form action="/question/comment" class="form-addcoment" role="form" method="POST">
                 @csrf
-                <a class="mouse" onclick="myFunction({{$answer->id}})">add a comment</a>
-              <textarea type="text" id="showComment{{$answer->id}}" class="commentarea" rows="6" name="content" placeholder="your comment"></textarea>
+                <a id="addComment" class="mouse">add a comment</a>
+                <textarea type="text" id="showComment" class="commentarea" rows="6" name="content" placeholder="your comment"></textarea>
               </form>
             </div>
+
+            
           </div>
-        @empty
-      @endforelse
+
+          @forelse ($question->answers as $answer)
+            <div class="post-layout">
+              <!-- Content posting -->
+                <div class="votecell post-layout--left">
+                  <div class="wrap-btn">
+                    <form action="/" role="form" method="POST">
+                      @csrf
+                      <button class="btn-arrow">
+                        <svg class="" width="36" height="36">
+                          <path d="M2 26h32L18 10 2 26z"></path>
+                        </svg>
+                      </button>
+                      
+                      <div class="text-center" itemprop="upvoteCount" data-value="0">0</div>
+          
+                      <button class="btn-arrow">
+                        <svg class="" width="36" height="36">
+                          <path d="M2 10h32L18 26 2 10z"></path>
+                        </svg>
+                      </button>
+                    </form>
+
+                      <button class="btn-show-repost">
+                        <svg class="" width="19" height="18">
+                          <path d="M3 9a8 8 0 113.73 6.77L8.2 14.3A6 6 0 105 9l3.01-.01-4 4-4-4h3L3 9zm7-4h1.01L11 9.36l3.22 2.1-.6.93L10 10V5z"></path>
+                        </svg>
+                      </button>
+                  </div>
+                </div>
+
+                <div class="postcell post-layout--right">
+                  <div class="post-text" itemprop="text">
+                    <p>
+                      {!!$answer->content!!}
+                    </p>
+                  </div>
+
+                  <div class="question-post">
+                    <div class="post-menu">
+                      <a href="#" class="" title="">
+                        share
+                      </a>
+
+                      <a href="#" class="" title="">
+                        edit
+                      </a>
+
+                      <a href="#" class="" title="">
+                        follow
+                      </a>
+                    </div>
+
+                    <div class="question-user-info">
+                      <div class="user-info ">
+                        <div class="user-action-time">asked 
+                          <span title="2020-08-14 12:44:29Z" class="relativetime">
+                            {{ date("j-n-Y, g:i a", strtotime($answer->created_at) - strtotime(date_default_timezone_set("Asia/Bangkok"))) }} ago
+                          </span>
+                        </div>
+
+                        <div class="user-avatar">
+                          <a href="/users/13431739/pythonisfine">
+                            <div class="gravatar-wrapper-32">
+                              <img src="https://www.gravatar.com/avatar/4d5478c39e22e5310f00c82eadb2884d?s=32&amp;d=identicon&amp;r=PG&amp;f=1" alt="" width="32" height="32" class="bar-sm">
+                            </div>
+                          </a>
+                        </div>
+
+                        <div class="user-details" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                          <a href="/users/13431739/pythonisfine">PythonisFine</a>
+                          <span class="d-none" itemprop="name">PythonisFine</span>
+                            <div class="-flair">
+                              <span class="reputation-score" title="reputation score " dir="ltr">1</span>
+
+                              <span title="3 bronze badges">
+                                <span class="badge3"></span>
+                                <span class="badgecount">3</span>
+                              </span>
+
+                              <span class="v-visible-sr">3 bronze badges</span>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- end postcell right -->
+
+                <div class="comment-wrap">
+                  @forelse ($question->questions_comment as $comment_question)
+                    <div class="cnt-wrap">
+                      <ul class="comment-reputation">
+                        <li id="comment-52727516" style="display: contents;">
+                          <div class="numb-vote">
+                            <div class="vote-wrap">
+                              <span title="" class="cool">4</span>
+                            </div>
+                          </div>
+                          
+                          <div class="comment-title">
+                            <span class="comment-copy">
+                              {{$comment_question->content}}
+                            </span>
+                            –&nbsp;
+                            <a href="" title="" class="comment-user">Vicky Gonsalves</a>
+                            <span class="comment-date" dir="ltr">
+                              <a class="comment-link" href="">
+                                <span title="" class="relativetime-clean">
+                                  {{ date("j-n-Y, g:i a", strtotime($question->created_at) - strtotime(date_default_timezone_set("Asia/Bangkok"))) }}
+                                </span>
+                              </a>
+                            </span>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  @empty
+                    <a class="post-tag" title="tag" rel="tag">No Comment</a>
+                  @endforelse
+
+                  <form action="/question/comment" class="form-addcoment" role="form" method="POST">
+                    @csrf
+                    <a class="mouse" onclick="myFunction({{$answer->id}})">add a comment</a>
+                  <textarea type="text" id="showComment{{$answer->id}}" class="commentarea" rows="6" name="content" placeholder="your comment"></textarea>
+                  </form>
+                </div>
+              </div>
+            @empty
+          @endforelse
+        </div>
+      </div>
+      <!-- end mainbar -->
+
+      <div class="answer">
+        <h2 class="fn-answer" style="padding-top: 8px; margin-top: 30px;">
+          Know someone who can answer? Share a link to this 
+          <a href="">question</a>
+        </h2>
+
+        <h2 class="fn-answer" style="margin: 15px 0;">Your Answer</h2>
+          <form id="noReloadAnswer" role="form" action="/question/{{$question->id}}" method="POST">
+            @csrf
+              <div class="form-group">
+                <textarea name="content" rows="10" class="form-control my-editor">{!! old('content', '') !!}</textarea>
+                @error('content')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+              </div>
+            
+              <button type="submit" class="btn btn-info" style="margin-bottom: 2em;">Post Your Answer</button>
+          </form>
+      </div>
     </div>
-  </div>
-  <!-- end mainbar -->
-
-  <div class="answer">
-    <h2 class="fn-answer" style="padding-top: 8px; margin-top: 30px;">
-      Know someone who can answer? Share a link to this 
-      <a href="">question</a>
-    </h2>
-
-    <h2 class="fn-answer" style="margin: 15px 0;">Your Answer</h2>
-      <form id="noReloadAnswer" role="form" action="/question/{{$question->id}}" method="POST">
-        @csrf
-          <div class="form-group">
-            <textarea name="content" rows="10" class="form-control my-editor">{!! old('content', '') !!}</textarea>
-            @error('content')
-                <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
-          </div>
-        
-          <button type="submit" class="btn btn-info" style="margin-bottom: 2em;">Post Your Answer</button>
-      </form>
   </div>
 </div>
 
