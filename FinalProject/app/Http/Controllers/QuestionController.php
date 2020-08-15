@@ -4,9 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Question;
+use App\QuestionComment;
+use App\Tag;
+use DB;
+use Auth;
 
 class QuestionController extends Controller
 {
+    /**
+     * First a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,10 +31,15 @@ class QuestionController extends Controller
     {
         //
         // eloquent
-        $questions = Question::all();
-
-        return view('questions.index', compact('questions'));
-
+        $page = 'Question';
+        if (Auth::user()) {
+            $user = Auth::user();
+            $questions = $user->questions;
+        } else {
+            $questions = Question::all();
+        }
+        
+        return view('questions.index', ['page' => $page], compact('questions'));
     }
 
     /**
@@ -30,7 +50,8 @@ class QuestionController extends Controller
     public function create()
     {
         //
-        return view('questions.create');
+        $page = 'Create Question';
+        return view('questions.create', ['page' => $page]);
     }
 
     /**
@@ -48,11 +69,36 @@ class QuestionController extends Controller
             "tag" => 'required'
         ]);
 
-        $question = new Question;
-        $question->title = $request->title;
-        $question->content = $request->content;
-        $question->tag = $request->tag;
-        $question->save();
+        $tags_arr = explode(',', $request['tag']);
+
+        $tag_ids = [];
+        foreach($tags_arr as $tag_name) {
+            // $tag = Tag::where("name", $tag_name)->first();
+
+            // if($tag) {
+            //     $tag_ids[] = $tag->id;
+            // } else {
+            //     $new_tag = Tag::create(["name" => $tag_name]);
+            //     $tag_ids[] = $new_tag->id;
+            // }
+
+            $tag = Tag::firstOrCreate(["name" => $tag_name]);
+            $tag_ids[] = $tag->id;
+        }
+
+        // $question = new Question;
+        // $question->title = $request->title;
+        // $question->content = $request->content;
+
+        $question = Question::create([
+            "title" => $request['title'],
+            "content" => $request['content'],
+            "tag" => $request['tag']
+        ]);
+
+        $question->tags()->sync($tag_ids);
+        $user = Auth::user();
+        $user->questions()->save($question);
 
         return redirect('/question')->with('success', 'Pertanyaan berhasil di simpan');
     }
@@ -67,9 +113,10 @@ class QuestionController extends Controller
     {
         //
         // dengan eloquent
+        $page = 'Question Detail';
         $question = Question::find($id);
 
-        return view('questions.show', ["question" => $question]);
+        return view('questions.show', ['page' => $page], ["question" => $question]);
     }
 
     /**
@@ -83,8 +130,9 @@ class QuestionController extends Controller
         //
         // $question = DB::table('questions')->where('id', $id)->first();
         $question = Question::where('id', $id)->first();
+        $page = 'Edit Question';
 
-        return view('questions.edit', compact('question'));
+        return view('questions.edit', ['page' => $page], compact('question'));
     }
 
     /**
@@ -118,5 +166,18 @@ class QuestionController extends Controller
         //
         Question::destroy($id);
         return redirect('/question')->with('success', "Pertanyaan berhasil di hapus!");
+    }
+
+    public function comment(Request $request)
+    {
+        dd($request);
+        $questionComment = QuestionComment::create([
+            "content" => $request['content']
+        ]);
+
+        $user = Auth::user();
+        $user->questions_comment()->save($questionComment);
+
+        return redirect('/question')->with('success', 'Komentar berhasil di simpan');
     }
 }

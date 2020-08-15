@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Question;
+use App\QuestionComment;
 use App\Tag;
 use DB;
 use Auth;
@@ -72,14 +73,17 @@ class TumpukanMeluapController extends Controller
 
         $tag_ids = [];
         foreach($tags_arr as $tag_name) {
-            $tag = Tag::where("name", $tag_name)->first();
+            // $tag = Tag::where("name", $tag_name)->first();
 
-            if($tag) {
-                $tag_ids[] = $tag->id;
-            } else {
-                $new_tag = Tag::create(["name" => $tag_name]);
-                $tag_ids[] = $new_tag->id;
-            }
+            // if($tag) {
+            //     $tag_ids[] = $tag->id;
+            // } else {
+            //     $new_tag = Tag::create(["name" => $tag_name]);
+            //     $tag_ids[] = $new_tag->id;
+            // }
+
+            $tag = Tag::firstOrCreate(["name" => $tag_name]);
+            $tag_ids[] = $tag->id;
         }
 
         // $question = new Question;
@@ -162,5 +166,26 @@ class TumpukanMeluapController extends Controller
         //
         Question::destroy($id);
         return redirect('/question')->with('success', "Pertanyaan berhasil di hapus!");
+    }
+
+    public function commentStore(Request $request)
+    {
+        // dd($request);
+
+        $questionComment = QuestionComment::create([
+            "content" => $request['content']
+        ]);
+
+        $user = Auth::user();
+        $user->questions_comment()->save($questionComment);
+
+        return redirect('/question')->with('success', 'Komentar berhasil di simpan');
+    }
+
+    public function commentGet($id) {
+
+        $questionComment = QuestionComment::find($id);
+        
+        return view('questions.show', compact('questionComment'));
     }
 }

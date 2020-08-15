@@ -187,6 +187,34 @@
     outline: 0;
     border-color: #000000;
   }
+  .cnt-wrap {
+    width: 100%;
+    box-sizing: inherit;
+  }
+  .comment-reputation {
+    list-style-type: none;
+    margin: 0;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    box-sizing: inherit;
+    padding-inline-start: 0;
+  }
+  .numb-vote {
+    grid-template-columns: repeat(2, max-content);
+    align-content: flex-start;
+    width: calc(2.5ch);
+    flex-shrink: 0;
+    display: grid;
+  }
+  .vote-wrap {
+    display: inline-block;
+    width: auto;
+    min-width: 16px
+  }
+  .comment-title {
+    min-width: 0;
+    flex-basis: 0;
+  }
 </style>
 
 <div class="content">
@@ -212,7 +240,8 @@
         <!-- Content posting -->
         <div class="votecell post-layout--left">
           <div class="wrap-btn">
-            <form action="/" method="POST">
+            <form action="/" role="form" method="POST">
+              @csrf
               <button class="btn-arrow">
                 <svg class="" width="36" height="36">
                   <path d="M2 26h32L18 10 2 26z"></path>
@@ -305,11 +334,45 @@
         <!-- end postcell right -->
 
         <div class="comment-wrap">
-          <form action="/" method="POST">
+          @forelse ($question->questions_comment as $comment_question)
+            <div class="cnt-wrap">
+              <ul class="comment-reputation">
+                <li id="comment-52727516" style="display: contents;">
+                  <div class="numb-vote">
+                    <div class="vote-wrap">
+                      <span title="" class="cool">4</span>
+                    </div>
+                  </div>
+                  
+                  <div class="comment-title">
+                    <span class="comment-copy">
+                      {{$comment_question->content}}
+                    </span>
+                    –&nbsp;
+                    <a href="" title="" class="comment-user">Vicky Gonsalves</a>
+                    <span class="comment-date" dir="ltr">
+                      <a class="comment-link" href="">
+                        <span title="" class="relativetime-clean">
+                          {{ date("j-n-Y, g:i a", strtotime($question->created_at) - strtotime(date_default_timezone_set("Asia/Bangkok"))) }}
+                        </span>
+                      </a>
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          @empty
+            <a class="post-tag" title="tag" rel="tag">No Tags</a>
+          @endforelse
+
+          <form action="/question/comment" role="form" method="POST">
+            @csrf
             <a id="addComment" href="#">add a comment</a>
-            <textarea type="text" id="showComment" class="commentarea" rows="6" name="comment" placeholder="your comment"></textarea>
+            <textarea type="text" id="showComment" class="commentarea" rows="6" name="content" placeholder="your comment"></textarea>
           </form>
         </div>
+
+        
       </div>
     </div>
   </div>
@@ -322,7 +385,7 @@
     </h2>
 
     <h2 class="fn-answer" style="margin: 15px 0;">Your Answer</h2>
-      <form role="form" action="/question" method="POST">
+      <form id="noReloadAnswer" role="form" action="/answer" method="POST">
         @csrf
           <div class="form-group">
             <textarea name="content" rows="10" class="form-control my-editor">{!! old('content', '') !!}</textarea>
@@ -403,5 +466,10 @@
         }
       });
     });
+
+
+    // $('#noReloadAnswer').submit(function(e){
+    //   e.preventDefault()
+    // });
   </script>
 @endpush

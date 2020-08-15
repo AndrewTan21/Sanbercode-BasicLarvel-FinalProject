@@ -3,70 +3,43 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\AnswerVote;
-use App\Answer;
-use App\User;
-use Illuminate\Support\Facades\Auth;
+use App\Question;
+use App\QuestionComment;
+use App\Tag;
+use DB;
+use Auth;
 
-class AnswerController extends Controller
+class TumpukanMeluapController extends Controller
 {
+    /**
+     * First a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($page_id)
+    public function index()
     {
-        $answers = Answer::where('page_id',$pageId)->get();
-        $answersData = []
-
-        foreach ($answers as $key) {
-            $user = User::find($key->users_id);
-            $name = $user->name;
-            $replies = $this->replies($key->id);
-            $photo = $user->first()->photo_url;
-            // dd($photo->photo_url);
-            $reply = 0;
-            $vote = 0;
-            $voteStatus = 0;
-            $spam = 0;
-            if(Auth::user()){
-                $voteByUser = AnswerVote::where('answer_id',$key->id)->where('user_id',Auth::user()->id)->first();             
-                if($voteByUser){
-                    $vote = 1;
-                    $voteStatus = $voteByUser->vote;
-                }
-            }          
-            if(sizeof($replies) > 0){
-                $reply = 1;
-            }
-                   
+        //
+        // eloquent
+        $page = 'Question';
+        if (Auth::user()) {
+            $user = Auth::user();
+            $questions = $user->questions;
+        } else {
+            $questions = Question::all();
         }
-        $collection = collect($answersData);
-        return $collection->sortBy('votes');
-    }
-    protected function replies($answerid)
-    {
-        $answers = Answer::where('reply_id',$answerId)->get();
-        $replies = [];
-        foreach ($answers as $key) {
-            $user = User::find($key->users_id);
-            $name = $user->name;
-            //$photo = $user->first()->photo_url;
-            $vote = 0;
-            $voteStatus = 0;
-            //$spam = 0;        
-            if(Auth::user()){
-                $voteByUser = CommentVote::where('comment_id',$key->id)->where('user_id',Auth::user()->id)->first();
-                if($voteByUser){
-                    $vote = 1;
-                    $voteStatus = $voteByUser->vote;
-                }
-            }
-        $collection = collect($replies);
-        return $collection->sortBy('votes');
-    
-
+        
+        return view('questions.index', ['page' => $page], compact('questions'));
     }
 
     /**
@@ -77,6 +50,8 @@ class AnswerController extends Controller
     public function create()
     {
         //
+        $page = 'Create Question';
+        return view('questions.create', ['page' => $page]);
     }
 
     /**
@@ -87,16 +62,45 @@ class AnswerController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'content' => 'required',
-            'reply_id' => 'filled',
-            'page_id' => 'filled',
-            'users_id' => 'required',
-            ]);
-        $answer = Answer::create($request->all());
-       
-        if($answer)
-           return [ "status" => "true","answerid" => $answer->id ];
+        //
+        $request->validate([
+            "title" => 'required|unique:questions',
+            "content" => 'required',
+            "tag" => 'required'
+        ]);
+
+        $tags_arr = explode(',', $request['tag']);
+
+        $tag_ids = [];
+        foreach($tags_arr as $tag_name) {
+            // $tag = Tag::where("name", $tag_name)->first();
+
+            // if($tag) {
+            //     $tag_ids[] = $tag->id;
+            // } else {
+            //     $new_tag = Tag::create(["name" => $tag_name]);
+            //     $tag_ids[] = $new_tag->id;
+            // }
+
+            $tag = Tag::firstOrCreate(["name" => $tag_name]);
+            $tag_ids[] = $tag->id;
+        }
+
+        // $question = new Question;
+        // $question->title = $request->title;
+        // $question->content = $request->content;
+
+        $question = Question::create([
+            "title" => $request['title'],
+            "content" => $request['content'],
+            "tag" => $request['tag']
+        ]);
+
+        $question->tags()->sync($tag_ids);
+        $user = Auth::user();
+        $user->questions()->save($question);
+
+        return redirect('/question')->with('success', 'Pertanyaan berhasil di simpan');
     }
 
     /**
@@ -107,7 +111,12 @@ class AnswerController extends Controller
      */
     public function show($id)
     {
-      //  
+        //
+        // dengan eloquent
+        $page = 'Question Detail';
+        $question = Question::find($id);
+
+        return view('questions.show', ['page' => $page], ["question" => $question]);
     }
 
     /**
@@ -118,7 +127,12 @@ class AnswerController extends Controller
      */
     public function edit($id)
     {
-       //
+        //
+        // $question = DB::table('questions')->where('id', $id)->first();
+        $question = Question::where('id', $id)->first();
+        $page = 'Edit Question';
+
+        return view('questions.edit', ['page' => $page], compact('question'));
     }
 
     /**
@@ -128,40 +142,17 @@ class AnswerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $answerid, $type)
+    public function update(Request $request, $id)
     {
-        if  ($type == "vote"){          
-            $this->validate($request, [
-            'vote' => 'required',
-            'users_id' => 'required',
-            ]);
+        //
+        $update = Question::where('id', $id)->update([
+            'title' => $request['title'],
+            'content' => $request['content'],
+            'tag' => $request['tag']
+        ]);
 
-            $answers = Answer::find($answerid);
 
-            $data = [
-                "answer_id" => $answerid,
-                'vote' => $request->vote,
-                'user_id' => $request->users_id,
-            ];
-
-            if($request->vote == "up"){
-                $answer = $answers->first();
-                $vote = $answer->votes;
-                $vote++;
-                $answers->votes = $vote;
-                $answers->save();
-            }
-            if($request->vote == "down"){
-                $answer = $answers->first();
-                $vote = $answer->votes;
-                $vote--;
-                $answers->votes = $vote;
-                $answers->save();
-            }
-            if(AnswerVote::create($data))
-               return "true";
-       }
-            
+        return redirect('/question')->with('success', 'Berhasil update post!');
     }
 
     /**
@@ -173,5 +164,21 @@ class AnswerController extends Controller
     public function destroy($id)
     {
         //
+        Question::destroy($id);
+        return redirect('/question')->with('success', "Pertanyaan berhasil di hapus!");
+    }
+
+    public function comment(Request $request)
+    {
+        // dd($request);
+
+        $questionComment = QuestionComment::create([
+            "content" => $request['content']
+        ]);
+
+        $user = Auth::user();
+        $user->questions_comment()->save($questionComment);
+
+        return redirect('/question')->with('success', 'Pertanyaan berhasil di simpan');
     }
 }

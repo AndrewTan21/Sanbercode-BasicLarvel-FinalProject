@@ -18,8 +18,8 @@ class CreateAnswersTable extends Migration
             $table->string('content');
             $table->integer('point_vote')->default(0);
             $table->integer('reply_id')->default(0);
-           $table->string('page_id')->default(0);
-           $table->integer('users_id');
+            $table->string('page_id')->default(0);
+            // $table->integer('users_id');
             $table->timestamps();
         });
         Schema::create('answers_user_vote', function (Blueprint $table) {
@@ -37,5 +37,6 @@ class CreateAnswersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('answers');
+        Schema::dropIfExists('answers_user_vote');
     }
 }

@@ -11,4 +11,8 @@ class Question extends Model
     public function tags() {
         return $this->belongsToMany('App\Tag', 'question_tag', 'question_id', 'tag_id');
     }
+
+    public function questions_comment() {
+        return $this->hasMany('App\QuestionComment', 'profile_id');
+    }
 }

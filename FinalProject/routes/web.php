@@ -23,17 +23,20 @@ Route::get('/', function () {
 // Route::put('/question/{id}', 'TumpukanMeluapController@update');
 // Route::delete('/question/{id}', 'TumpukanMeluapController@destroy');
 Route::resource('question', 'TumpukanMeluapController');
+Route::resource('answer', 'AnswerController');
+Route::post('/question/comment', 'TumpukanMeluapController@commentStore');
+Route::get('/question/{id}', 'TumpukanMeluapController@commentGet');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/{pageId}', function($pageId){
-    return view('page',['pageId' => $pageId]);
- });
- Route::get('answers/{pageId}', 'AnswerController@index');
- Route::post('answers', 'AnswerController@store');
- Route::post('answers/{answerId}/{type}', 'AnswerController@update');
+// Route::get('/{pageId}', function($pageId){
+//     return view('page',['pageId' => $pageId]);
+//  });
+//  Route::get('answers/{pageId}', 'AnswerController@index');
+//  Route::post('answers', 'AnswerController@store');
+//  Route::post('answers/{answerId}/{type}', 'AnswerController@update');
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
